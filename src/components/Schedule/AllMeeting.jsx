@@ -35,10 +35,6 @@ const AllMeeting = ({ token }) => {
     navigate("/schedule");
   }
 
-  const handleUpdate = (id) => {
-    // Navigate to update form or open modal (to be implemented)
-  };
-
   return (
     <div className="flex flex-col items-center bg-gray-100 min-h-screen py-6">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">All Meetings</h1>
@@ -72,12 +68,12 @@ const AllMeeting = ({ token }) => {
                 </div>
 
                 <div className="mt-4 md:mt-0 flex gap-2">
-                  <button
-                    onClick={() => handleUpdate(meeting._id)}
+                  {/* <button
+                    onClick={() => handleUpdateRedirect(meeting._id)}
                     className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                   >
                     Update
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => handleDelete(meeting._id)}
                     className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"

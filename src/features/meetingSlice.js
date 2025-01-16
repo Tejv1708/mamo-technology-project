@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../instance';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { instance } from "../instance";
 
 export const createMeet = createAsyncThunk(
-  'meeting/createMeet',
+  "meeting/createMeet",
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
@@ -11,7 +11,7 @@ export const createMeet = createAsyncThunk(
         data.meetingDetails,
         {
           headers: {
-            Authorization: 'Bearer ' + data.token,
+            Authorization: "Bearer " + data.token,
           },
         }
       );
@@ -25,12 +25,12 @@ export const createMeet = createAsyncThunk(
 );
 
 export const getAllMeeting = createAsyncThunk(
-  'meeting/getAllMeet',
+  "meeting/getAllMeet",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.get('/time/allMeeting', {
+      const response = await instance.get("/time/allMeeting", {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
       console.log(response);
@@ -42,12 +42,29 @@ export const getAllMeeting = createAsyncThunk(
 );
 
 export const deleteAMeeting = createAsyncThunk(
-  'meeting/deleteMeet',
+  "meeting/deleteMeet",
   async ({ id }, { rejectWithValue }) => {
     try {
       const response = await instance.delete(`/time/deleteSlot/${id}`, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateMeeting = createAsyncThunk(
+  "meeting/updateMeet",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(`/time/updateSlot/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
       console.log(response);
@@ -59,7 +76,7 @@ export const deleteAMeeting = createAsyncThunk(
 );
 
 export const meetingSlice = createSlice({
-  name: 'meeting',
+  name: "meeting",
   initialState: { data: null, loading: false, error: null },
   reducers: {},
   extraReducers: (builder) => {
@@ -85,6 +102,19 @@ export const meetingSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getAllMeeting.rejected, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      });
+
+    builder
+      .addCase(updateMeeting.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateMeeting.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(updateMeeting.rejected, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       });
