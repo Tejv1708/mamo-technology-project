@@ -11,7 +11,7 @@ export const createMeet = createAsyncThunk(
         data.meetingDetails,
         {
           headers: {
-            Authorization: "Bearer " + data.token,
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
       );
@@ -60,13 +60,22 @@ export const deleteAMeeting = createAsyncThunk(
 
 export const updateMeeting = createAsyncThunk(
   "meeting/updateMeet",
-  async ({ id }, { rejectWithValue }) => {
+  async (
+    { id, title, description, startTime, endTime },
+    { rejectWithValue }
+  ) => {
+    console.log("id", id);
+    console.log(localStorage.getItem("token"));
     try {
-      const response = await instance.put(`/time/updateSlot/${id}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
+      const response = await instance.put(
+        `/time/updateSlot/${id}`,
+        { title, description, startTime, endTime },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
       console.log(response);
       return response.data;
     } catch (error) {

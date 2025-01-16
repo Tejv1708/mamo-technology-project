@@ -23,10 +23,8 @@ function App() {
         <Route path="/signup" element={<RegistrationPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/schedule" element={<Schedule token={token} />} />
-        <Route
-          path="/updateMeeting/:id"
-          element={<UpdateMeeting token={token} />}
-        />
+        <Route path="/allMeet/:id" element={<UpdateMeeting token={token} />} />
+
         <Route path="/allMeet" element={<AllMeeting token={token} />} />
       </Routes>
     </>
