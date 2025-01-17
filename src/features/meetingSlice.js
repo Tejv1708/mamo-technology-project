@@ -64,8 +64,8 @@ export const updateMeeting = createAsyncThunk(
     { id, title, description, startTime, endTime },
     { rejectWithValue }
   ) => {
-    console.log("id", id);
     console.log(localStorage.getItem("token"));
+
     try {
       const response = await instance.put(
         `/time/updateSlot/${id}`,
